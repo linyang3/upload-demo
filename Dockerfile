@@ -4,8 +4,6 @@ FROM registry.access.redhat.com/ubi8/nodejs-16:latest
 # Copy package.json, and optionally package-lock.json if it exists
 COPY package.json package-lock.json* ./
 
-RUN chmod -R 777 ./uploads
-
 # Install app dependencies
 RUN \
   if [ -f package-lock.json ]; then npm ci; \
@@ -18,6 +16,8 @@ FROM registry.access.redhat.com/ubi8/nodejs-16-minimal:latest
 # Install app dependencies
 COPY --from=0 /opt/app-root/src/node_modules /opt/app-root/src/node_modules
 COPY . /opt/app-root/src
+
+RUN mkdir -p /opt/app-root/src/uploads
 
 ENV NODE_ENV production
 ENV PORT 3000
