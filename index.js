@@ -1,33 +1,28 @@
 const Koa = require('koa')
 const Router = require('koa-router')
-const KoaBody = require('koa-body')
-
+const { koaBody } = require('koa-body')
 const app = new Koa()
 
-app.use(KoaBody({
-    multipart: true
-}))
+app.use(
+  koaBody({
+    multipart: true, //解析多个文件
+    formidable: {
+      maxFileSize: 100 * 1024 * 1024, // 设置上传文件大小最大限制，默认2M
+      uploadDir: './uploads', //可以填写一个路径，不填写默认为 os.tmpDir()
+      keepExtensions: true
+    }
+  })
+)
 
 const router = new Router()
 
-
 router.post('/upload', async (ctx) => {
-    const file = ctx.request.files.file
-    // 创建可读流
-    const reader = fs.createReadStream(file.path);
-    let filePath = path.join(__dirname, '../uploads/') + `/${file.name}`;
-    // 创建可写流
-    const upStream = fs.createWriteStream(filePath);
-    // 可读流通过管道写入可写流
-    reader.pipe(upStream);
-    return ctx.body = "上传成功！";
-
+  ctx.body = '上传成功！'
 })
 
 app.use(router.routes())
 app.use(router.allowedMethods())
 
-
 app.listen(3000, () => {
-    console.log('app is running');
+  console.log('app is running')
 })
