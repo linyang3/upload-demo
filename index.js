@@ -17,6 +17,7 @@ app.use(
 const router = new Router()
 
 router.post('/upload', async (ctx) => {
+  console.log(ctx.request.files.file)
   ctx.body = '上传成功！'
 })
 
