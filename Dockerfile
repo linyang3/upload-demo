@@ -17,8 +17,6 @@ FROM registry.access.redhat.com/ubi8/nodejs-16-minimal:latest
 COPY --from=0 /opt/app-root/src/node_modules /opt/app-root/src/node_modules
 COPY . /opt/app-root/src
 
-RUN mkdir -p /opt/app-root/src/uploads
-
 ENV NODE_ENV production
 ENV PORT 3000
 
