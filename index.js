@@ -4,6 +4,9 @@ const { koaBody } = require('koa-body')
 const app = new Koa()
 const fs = require('fs')
 
+const { getUserList } = require('./cmds')
+
+
 // app.use(
 //   koaBody({
 //     multipart: true, //解析多个文件
@@ -28,6 +31,10 @@ router.post('/upload', async (ctx) => {
 
   // console.log(ctx.request.files.file)
   ctx.body = '上传成功！'
+})
+
+router.get('/user/list', async (ctx) => {
+  ctx.body = await getUserList()
 })
 
 app.use(router.routes())
